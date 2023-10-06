@@ -1,0 +1,1 @@
+python -m src.data_statistics.term_frequency_baselines.term_frequency_baseline --baseline_type joint

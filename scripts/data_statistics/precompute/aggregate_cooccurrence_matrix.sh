@@ -1,0 +1,1 @@
+python -m src.data_statistics.precompute.aggregate_cooccurrence_matrix
