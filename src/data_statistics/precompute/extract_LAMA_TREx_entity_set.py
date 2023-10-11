@@ -107,7 +107,7 @@ if __name__ == '__main__':
 	parser.add_argument('--dataset_name', type=str, default='LAMA_TREx')
 	args = parser.parse_args()
 	
-	data_path = os.path.join('data', args.dataset_name, 'all.json')
+	data_path = f'data/{args.dataset_name}/all.json'
 	entities, subjects, objects, all_entities = get_entities(args.model_names, data_path)
 
 	out_path = f'data_statistics/entity_set/{args.dataset_name}'

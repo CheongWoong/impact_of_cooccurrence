@@ -1,16 +1,15 @@
 from collections import defaultdict
 import json
-import os
 
 
 if __name__ == '__main__':
     dataset_name = 'LAMA_TREx'
-    data_path = os.path.join('data', dataset_name)
-    with open(os.path.join(data_path, 'train.json'), 'r') as fin:
+
+    with open(f'data/{dataset_name}/train.json', 'r') as fin:
         train = json.load(fin)
-    with open(os.path.join(data_path, 'test.json'), 'r') as fin:
+    with open(f'data/{dataset_name}/test.json', 'r') as fin:
         test = json.load(fin)
-    with open(os.path.join(data_path, 'all.json'), 'r') as fin:
+    with open(f'data/{dataset_name}/all.json', 'r') as fin:
         all = json.load(fin)
 
     train_counts = defaultdict(int)
