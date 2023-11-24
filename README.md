@@ -2,6 +2,10 @@
 This is a repository for the paper "[Impact of Co-occurrence on Factual Knowledge of Large Language Models](https://arxiv.org/abs/2310.08256)".  
 The project page can be found [here](https://cheongwoong.github.io/projects/impact_of_cooccurrence/).
 
+<p align="center">
+<img src="https://github.com/CheongWoong/cheongwoong.github.io/blob/master/assets/img/publication_preview/impact_of_cooccurrence.png"></img>
+</p>
+
 ## Installation
 
 ### Set up a Conda Environment
