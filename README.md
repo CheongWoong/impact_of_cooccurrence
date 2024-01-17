@@ -36,7 +36,7 @@ bash scripts/installation/check_number_of_samples_LAMA_TREx.sh
 
 
 ## Factual Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.
+Follow [this](https://github.com/CheongWoong/factual_knowledge_probing/tree/v1.0) to run the factual knowledge probing experiments.
 
 
 ## Precompute Data Statistics
