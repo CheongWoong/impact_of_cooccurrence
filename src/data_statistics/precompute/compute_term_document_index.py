@@ -6,7 +6,7 @@ import argparse
 
 from nltk import everygrams
 
-from src.utils.common.text_processing import text_normalization_without_lemmatization
+from src.utils.text_processing import text_normalization_without_lemmatization
 
 MAX_LEN = 50000
 

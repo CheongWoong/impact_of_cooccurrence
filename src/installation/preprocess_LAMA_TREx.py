@@ -8,21 +8,24 @@ from sklearn.model_selection import train_test_split
 
 from transformers import AutoTokenizer
 
-from src.utils.common.text_processing import text_normalization_without_lemmatization
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_names', nargs='+', default=['EleutherAI/gpt-neo-125m', 'EleutherAI/gpt-neo-1.3B', 'EleutherAI/gpt-neo-2.7B', 'EleutherAI/gpt-j-6b'])
+    parser.add_argument(
+        '--model_names',
+        nargs='+',
+        default=['EleutherAI/gpt-neo-125m', 'EleutherAI/gpt-neo-1.3B', 'EleutherAI/gpt-neo-2.7B', 'EleutherAI/gpt-j-6b',
+                 'bert-base-uncased', 'bert-large-uncased',
+                 'roberta-base', 'roberta-large',
+                 'albert-base-v1', 'albert-large-v1', 'albert-xlarge-v1',
+                 'albert-base-v2', 'albert-large-v2', 'albert-xlarge-v2',
+                 ])
     args = parser.parse_args()
 
-    vocab_intersection = set()
-    vocab_union = set()
+    tokenizers = []
     for model_name in args.model_names:
         tokenizer = AutoTokenizer.from_pretrained(model_name)
-        vocab = set([token for token in list(tokenizer.vocab.keys())])
-        vocab_intersection = vocab_intersection & vocab if len(vocab_intersection) > 0 else vocab
-        vocab_union = vocab_union | vocab
+        tokenizers.append(tokenizer)
 
     relations = {}
     with jsonlines.open('data/original_LAMA/data/relations.jsonl') as fin:
@@ -42,9 +45,15 @@ if __name__ == '__main__':
                 subj = sample['sub_label'].strip()
                 obj = sample['obj_label'].strip()
                 rel_id = sample['predicate_id']
-                if 'Ġ' + obj not in vocab_intersection:
-                    continue
-                if not (2 > len(text_normalization_without_lemmatization(obj)) > 0):
+
+                is_valid = True
+                for tokenizer in tokenizers:
+                    input_ids = tokenizer.encode(' '+obj, add_special_tokens=False)
+                    if len(input_ids) != 1:
+                        is_valid = False
+                        break
+                
+                if not is_valid:
                     continue
 
                 template = relations[rel_id]

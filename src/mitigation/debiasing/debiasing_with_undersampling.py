@@ -5,7 +5,7 @@ import json
 import random
 import numpy as np
 
-from src.utils.common.text_processing import text_normalization_without_lemmatization
+from src.utils.text_processing import text_normalization_without_lemmatization
 from src.utils.cooccurrence_matrix import CooccurrenceMatrix
 
 

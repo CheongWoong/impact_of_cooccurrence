@@ -6,7 +6,7 @@ import json
 
 import numpy as np
 
-from src.utils.common.text_processing import text_normalization_without_lemmatization
+from src.utils.text_processing import text_normalization_without_lemmatization
 
 
 def get_masks_for_baseline(tokenizer, f_all):

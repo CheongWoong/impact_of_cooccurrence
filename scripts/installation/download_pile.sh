@@ -1,8 +1,8 @@
-mkdir -p "data/pile/train"
+mkdir -p "data/pile"
 
 for NUM in {00..29}
 do
-    nohup wget "https://the-eye.eu/public/AI/pile/train/"$NUM".jsonl.zst" -P "data/pile/train" > "logs/log.download_pile_train_"$NUM &
+    nohup wget "https://the-eye.eu/public/AI/pile/train/"$NUM".jsonl.zst" -P "data/pile" > "logs/log.download_pile_train_"$NUM &
 done
 
 nohup wget "https://the-eye.eu/public/AI/pile/val.jsonl.zst" -P "data/pile" > "logs/log.download_pile_val" &
