@@ -31,12 +31,13 @@ bash scripts/installation/preprocess_LAMA_TREx.sh
 
 Check the number of samples for each relation.
 ```
-bash scripts/installation/check_number_of_samples_LAMA_TREx.sh
+# dataset_name: ['LAMA_TREx', 'ConceptNet']
+bash scripts/installation/check_number_of_samples.sh {dataset_name}
 ```
 
 
 ## Factual Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing/tree/v1.0) to run the factual knowledge probing experiments.
+Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.
 
 
 ## Precompute Data Statistics
@@ -44,7 +45,11 @@ Follow [this](https://github.com/CheongWoong/factual_knowledge_probing/tree/v1.0
 ### Extract Entities in the LAMA TREx and Target Vocabularies
 The outputs are saved in 'data_statistics/entity_set'.
 ```
-bash scripts/data_statistics/precompute/extract_LAMA_TREx_entity_set.sh
+bash scripts/data_statistics/precompute/extract_entity_set.sh {dataset_names}
+```
+For example, run the following command to extract entities from LAMA_TREx and ConceptNet.
+```
+bash scripts/data_statistics/precompute/extract_entity_set.sh "LAMA_TREx ConceptNet"
 ```
 
 ### Compute Term Document Index of Entities in the Pile
