@@ -21,13 +21,16 @@ bash scripts/installation/download_pile.sh
 bash scripts/installation/extract_pile.sh
 ```
 
-### Download the LAMA TREx dataset
+### (Optional) Download the LAMA TREx dataset
 The original dataset is saved in 'data/original_LAMA'.  
 The preprocessed dataset is saved in 'data/LAMA_TREx'.
 ```
 bash scripts/installation/download_LAMA.sh
 bash scripts/installation/preprocess_LAMA_TREx.sh
 ```
+
+### Download the preprocessed datasets
+The datasets LAMA\_TREx and ConceptNet are provided [here](https://github.com/CheongWoong/factual_knowledge_probing/tree/main/data).
 
 Check the number of samples for each relation.
 ```
@@ -37,7 +40,7 @@ bash scripts/installation/check_number_of_samples.sh {dataset_name}
 
 
 ## Factual Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.
+Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.  
 
 
 ## Precompute Data Statistics
