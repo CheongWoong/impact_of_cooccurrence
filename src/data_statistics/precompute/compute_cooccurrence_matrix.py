@@ -9,34 +9,37 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("--num", type=str, required=True)
-    parser.add_argument('--dataset_name', type=str, default='LAMA_TREx')
+    parser.add_argument('--pretraining_dataset_name', type=str, default='pile')
+    parser.add_argument("--filename", type=str, required=True)
     args = parser.parse_args()
     
-    with open(f"data_statistics/entity_set/{args.dataset_name}/entities_with_target_vocab.json", "r") as fin:
-        entity_idx = json.load(fin)
+    with open(f"data_statistics/entity_set/merged/all_subjects.json", "r") as fin:
+        subject_idx = json.load(fin)
+    with open(f"data_statistics/entity_set/merged/all_objects.json", "r") as fin:
+        object_idx = json.load(fin)
 
-    def get_entity_idx(entity):
-        return entity_idx.get(entity, -1)
+    def get_subject_idx(entity):
+        return subject_idx.get(entity, -1)
+    def get_object_idx(entity):
+        return object_idx.get(entity, -1)
 
-    mat_shape = (len(entity_idx) + 1, len(entity_idx) + 1)
+    mat_shape = (len(subject_idx) + 1, len(object_idx) + 1)
     cooccurrence_matrix = np.zeros(mat_shape, dtype=np.int32)
     # cooccurrence_matrix *= 0
 
-    out_path = f'data_statistics/term_document_index/{args.dataset_name}'
-    os.makedirs(out_path, exist_ok=True)
-
-    count = 0
-    with jsonlines.open(os.path.join(out_path, f'{args.num}.jsonl')) as fin:
+    term_document_index_path = os.path.join('data_statistics', 'term_document_index', args.pretraining_dataset_name, f'{args.filename}.jsonl')
+    with jsonlines.open(term_document_index_path) as fin:
         for line in tqdm(fin.iter()):
-            entities = line["entities"]
+            entities = line['entities']
 
-            eidx = np.fromiter(map(get_entity_idx, entities), dtype=np.int64)
+            if len(entities) > 0:
+                s_idx = np.fromiter(map(get_subject_idx, entities), dtype=np.int32)
+                o_idx = np.fromiter(map(get_object_idx, entities), dtype=np.int32)
 
-            cooccurrence_matrix[eidx[:,None],eidx[None,:]] += 1
+                cooccurrence_matrix[s_idx[:,None], o_idx[None,:]] += 1
 
-    out_path = f'data_statistics/cooccurrence_matrix/{args.dataset_name}'
+    out_path = f'data_statistics/cooccurrence_matrix/{args.pretraining_dataset_name}'
     os.makedirs(out_path, exist_ok=True)
-    np.save(os.path.join(out_path, f'{args.num}.npy'), cooccurrence_matrix)
+    np.save(os.path.join(out_path, f'{args.filename}.npy'), cooccurrence_matrix)
 
-    print("BYE")
+    print('BYE')
