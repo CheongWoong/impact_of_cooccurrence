@@ -55,22 +55,24 @@ For example, run the following command to extract entities from LAMA_TREx and Co
 bash scripts/data_statistics/precompute/extract_entity_set.sh "LAMA_TREx ConceptNet"
 ```
 
-### Compute Term Document Index of Entities in the Pile
-The outputs are saved in 'data_statistics/term_document_index'.
+### Compute Term Document Index of Entities
+The outputs are saved in 'data_statistics/term_document_index/{pretraining_dataset_name}'.  
+In addition to pretraining_dataset_name, the name of the text file needs to be specified as the script processes each data chunk individually when the dataset is split into multiple chunks.
 ```
-bash scripts/data_statistics/precompute/compute_term_document_index.sh
+# pretraining_dataset_name: ['pile', 'bert_pretraining_data']
+bash scripts/data_statistics/precompute/compute_term_document_index.sh {pretraining_dataset_name} {filename}
 ```
 
 ### Compute Cooccurrence Matrix
-The outputs are saved in 'data_statistics/cooccurrence_matrix'.
+The outputs are saved in 'data_statistics/{pretraining_dataset_name}/cooccurrence_matrix'.
 ```
-bash scripts/data_statistics/precompute/compute_cooccurrence_matrix.sh
+bash scripts/data_statistics/precompute/compute_cooccurrence_matrix.sh {pretraining_dataset_name} {filename}
 ```
 
 ### Aggregate Cooccurrence Matrix
-The aggregated matrix is saved in 'data_statistics/cooccurrence_matrix/cooccurrence_matrix.npy'.
+The aggregated matrix is saved in 'data_statistics/cooccurrence_matrix/{pretraining_dataset_name}/cooccurrence_matrix.npy'.
 ```
-bash scripts/data_statistics/precompute/aggregate_cooccurrence_matrix.sh
+bash scripts/data_statistics/precompute/aggregate_cooccurrence_matrix.sh {pretraining_dataset_name}
 ```
 
 
