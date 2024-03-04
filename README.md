@@ -26,7 +26,7 @@ For other datasets, place them in 'data/{dataset_name}'.
 
 ## Precompute Data Statistics
 
-### Extract Entities in the LAMA TREx and Target Vocabularies
+### Extract Entities in the Target Datasets and Model Vocabularies
 The outputs are saved in 'data_statistics/entity_set'.
 ```
 bash scripts/data_statistics/precompute/extract_entity_set.sh {dataset_names}
