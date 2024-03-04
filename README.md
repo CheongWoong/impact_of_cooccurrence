@@ -6,41 +6,21 @@ The project page can be found [here](https://cheongwoong.github.io/projects/impa
 <img src="https://github.com/CheongWoong/cheongwoong.github.io/blob/master/assets/img/publication_preview/impact_of_cooccurrence.png"></img>
 </p>
 
+
 ## Installation
 
-### Set up a Conda Environment
-This setup script creates an environment named 'factual_knowledge_probing'.
-```
-bash scripts/installation/setup_conda.sh
-```
+### Factual Knowledge Probing
+Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.  
+This includes setting up a conda environment and factual knowledge probing datasets.
 
-### Download the Pile dataset
+### Download the Pre-training Data (the Pile)
 The dataset is saved in 'data/pile'.
 ```
 bash scripts/installation/download_pile.sh
 bash scripts/installation/extract_pile.sh
 ```
 
-### (Optional) Download the LAMA TREx dataset
-The original dataset is saved in 'data/original_LAMA'.  
-The preprocessed dataset is saved in 'data/LAMA_TREx'.
-```
-bash scripts/installation/download_LAMA.sh
-bash scripts/installation/preprocess_LAMA_TREx.sh
-```
-
-### Download the preprocessed datasets
-The datasets LAMA\_TREx and ConceptNet are provided [here](https://github.com/CheongWoong/factual_knowledge_probing/tree/main/data).
-
-Check the number of samples for each relation.
-```
-# dataset_name: ['LAMA_TREx', 'ConceptNet']
-bash scripts/installation/check_number_of_samples.sh {dataset_name}
-```
-
-
-## Factual Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.  
+For other datasets, place them in 'data/{dataset_name}'.
 
 
 ## Precompute Data Statistics
