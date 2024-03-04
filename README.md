@@ -1,6 +1,7 @@
 # Impact of Co-occurrence on Factual Knowledge of Large Language Models (EMNLP 2023 Findings)
 This is a repository for the paper "[Impact of Co-occurrence on Factual Knowledge of Large Language Models](https://aclanthology.org/2023.findings-emnlp.518.pdf)".  
-The project page can be found [here](https://cheongwoong.github.io/projects/impact_of_cooccurrence/).
+The project page can be found [here](https://cheongwoong.github.io/projects/impact_of_cooccurrence/).  
+Refer to [v1.0](https://github.com/CheongWoong/impact_of_cooccurrence/tree/v1.0) for the original version used for the experiments in the EMNLP 2023 Findings paper "[Impact of Co-occurrence on Factual Knowledge of Large Language Models](https://aclanthology.org/2023.findings-emnlp.518.pdf)". However, we recommend using the latest version.
 
 <p align="center">
 <img src="https://github.com/CheongWoong/cheongwoong.github.io/blob/master/assets/img/publication_preview/impact_of_cooccurrence.png"></img>
