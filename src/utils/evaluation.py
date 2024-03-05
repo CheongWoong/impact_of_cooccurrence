@@ -73,26 +73,19 @@ def postprocess_predictions_for_baseline(baseline_type, coo_matrix, validation_d
     # get the word indices in the vocab
     vocab = [tokenizer.decode(a).strip() for a in sorted(list(tokenizer.vocab.values()))]
 
-    vocab_subj_idx, vocab_obj_idx, vocab_entity_idx = [], [], []
-    for word in vocab:
-        normalized_word = text_normalization_without_lemmatization(word)
-        if len(normalized_word) == 1:
-            token = normalized_word[0]
-            s_idx = coo_matrix.get_subject_idx(token)
-            s_idx = -1 if s_idx is None else s_idx
-            vocab_subj_idx.append(s_idx)
-            o_idx = coo_matrix.get_object_idx(token)
+    vocab_obj_idx = []
+    for obj in vocab:
+        normalized_obj = text_normalization_without_lemmatization(obj)
+        if 4 > len(normalized_obj) > 0:
+            obj = ' '.join(normalized_obj)
+            o_idx = coo_matrix.get_object_idx(obj)
             o_idx = -1 if o_idx is None else o_idx
             vocab_obj_idx.append(o_idx)
-            idx = coo_matrix.get_entity_idx(token)
-            idx = -1 if idx is None else idx
-            vocab_entity_idx.append(idx)
         else:
-            vocab_subj_idx.append(-1)
             vocab_obj_idx.append(-1)
-            vocab_entity_idx.append(-1)
-    
+
     logits_remove_stopwords_marginal = coo_matrix.occurrence_matrix[vocab_obj_idx]
+    logits_remove_stopwords_marginal[logits_remove_stopwords_marginal < 0] = 0
 
     # post-process the predictions for evaluation and save.
     os.makedirs(output_dir, exist_ok=True)
