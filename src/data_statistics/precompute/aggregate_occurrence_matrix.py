@@ -20,5 +20,6 @@ if __name__ == '__main__':
         else:
             occurrence_matrix = occurrence_matrix + temp_matrix
 
+    occurrence_matrix[-1] = -1
     np.save(os.path.join(filepath, 'occurrence_matrix.npy'), occurrence_matrix)
     print("BYE")

@@ -1,3 +1,4 @@
+from tqdm.auto import tqdm
 import argparse
 import os
 
@@ -13,12 +14,14 @@ if __name__ == '__main__':
     filenames = os.listdir(filepath)
     
     cooccurrence_matrix = None
-    for filename in filenames:
+    for filename in tqdm(filenames):
         temp_matrix = np.load(os.path.join(filepath, filename))
         if cooccurrence_matrix is None:
             cooccurrence_matrix = temp_matrix
         else:
             cooccurrence_matrix = cooccurrence_matrix + temp_matrix
 
+    cooccurrence_matrix[-1,:] = -1
+    cooccurrence_matrix[:,-1] = -1
     np.save(os.path.join(filepath, 'cooccurrence_matrix.npy'), cooccurrence_matrix)
     print("BYE")
