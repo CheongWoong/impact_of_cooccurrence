@@ -45,26 +45,23 @@ bash scripts/data_statistics/precompute/compute_term_document_index.sh {pretrain
 ```
 
 ### Compute Cooccurrence Matrix
-The outputs are saved in 'data_statistics/{pretraining_dataset_name}/cooccurrence_matrix'.
+The outputs are saved in 'data_statistics/cooccurrence_matrix/{pretraining_dataset_name}' and 'data_statistics/occurrence_matrix/{pretraining_dataset_name}'.
 ```
 bash scripts/data_statistics/precompute/compute_cooccurrence_matrix.sh {pretraining_dataset_name} {filename}
-```
-
-### Aggregate Cooccurrence Matrix
-The aggregated matrix is saved in 'data_statistics/cooccurrence_matrix/{pretraining_dataset_name}/cooccurrence_matrix.npy'.
-```
 bash scripts/data_statistics/precompute/aggregate_cooccurrence_matrix.sh {pretraining_dataset_name}
-```
 
+bash scripts/data_statistics/precompute/compute_occurrence_matrix.sh {pretraining_dataset_name} {filename}
+bash scripts/data_statistics/precompute/aggregate_occurrence_matrix.sh {pretraining_dataset_name}
+```
 
 ## Impact of Cooccurrence
 
 ### Term Frequency Baselines
-The prediction files are saved in 'results/{baseline_name}'.
+The prediction files are saved in 'results/{baseline_name}/{pretraining_dataset_name}'.
 ```
-bash scripts/data_statistics/term_frequency_baselines/marginal_probability.sh
-bash scripts/data_statistics/term_frequency_baselines/joint_probability.sh
-bash scripts/data_statistics/term_frequency_baselines/PMI.sh
+bash scripts/data_statistics/term_frequency_baselines/marginal_probability.sh {pretraining_dataset_name} {dataset_name}
+bash scripts/data_statistics/term_frequency_baselines/joint_probability.sh {pretraining_dataset_name} {dataset_name}
+bash scripts/data_statistics/term_frequency_baselines/PMI.sh {pretraining_dataset_name} {dataset_name}
 ```
 
 ### Compute Hits@1 against Reciprocal Rank of Subject-Object Frequency
