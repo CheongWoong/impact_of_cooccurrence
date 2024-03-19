@@ -5,38 +5,27 @@ import json
 import random
 import numpy as np
 
-from src.utils.common.text_processing import text_normalization_without_lemmatization
+from src.utils.text_processing import text_normalization_without_lemmatization
 from src.utils.cooccurrence_matrix import CooccurrenceMatrix
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--pretraining_dataset_name', type=str, default='pile')
     parser.add_argument('--dataset_name', type=str)
     args = parser.parse_args()
 
-    coo_matrix = CooccurrenceMatrix(args.dataset_name)
-
-    with open(f"data/{args.dataset_name}/all.json", 'r') as fin:
-        f_all = json.load(fin)
-
-    uid_rel_map, uid_subj_map, uid_obj_map = {}, {}, {}
-    for example in f_all:
-        uid_rel_map[example['uid']] = example['rel_id']
-        uid_subj_map[example['uid']] = example['subj']
-        uid_obj_map[example['uid']] = example['output']
+    coo_matrix = CooccurrenceMatrix(args.pretraining_dataset_name)
 
     with open(f"data/{args.dataset_name}/train.json", 'r') as fin:
         f_train = json.load(fin)
 
-    with open(f"results/joint/pred_{args.dataset_name}_train.json", "r") as fin:
-        baseline_train = json.load(fin)
-
     uid_prob_per_rel = defaultdict(list)
 
-    for baseline in baseline_train:
-        rel = uid_rel_map[baseline['uid']]
-        subj = uid_subj_map[baseline['uid']]
-        obj = uid_obj_map[baseline['uid']]
+    for example in f_train:
+        rel = example['rel_id']
+        subj = example['subj']
+        obj = example['output']
         subj = ' '.join(text_normalization_without_lemmatization(subj))
         obj = ' '.join(text_normalization_without_lemmatization(obj))
 
@@ -44,13 +33,9 @@ if __name__ == '__main__':
         obj_count = coo_matrix.count(obj)
         subj_obj_count = coo_matrix.coo_count(subj, obj)
 
-        obj_prob = obj_count / 210000000
-        joint_prob = subj_obj_count / 210000000
         cond_prob = subj_obj_count / subj_count if subj_count > 0 else 0
 
-        prob = cond_prob
-
-        uid_prob_per_rel[rel].append((baseline['uid'], prob))    
+        uid_prob_per_rel[rel].append((example['uid'], cond_prob))    
     
     for rel in uid_prob_per_rel:
         uid_prob_per_rel[rel] = sorted(uid_prob_per_rel[rel], key=lambda x: x[1], reverse=True)
@@ -84,7 +69,7 @@ if __name__ == '__main__':
             if uid in condprob_filtered_uids:
                 condprob_filtered_dataset.append(example)
 
-        with open(f"data/{args.dataset_name}/train_random_filtered_" + str(filtering_ratio) + ".json", "w") as fout:
+        with open(f"data/{args.dataset_name}/train_{args.pretraining_dataset_name}_random_filtered_" + str(filtering_ratio) + ".json", "w") as fout:
             json.dump(random_filtered_dataset, fout)
-        with open(f"data/{args.dataset_name}/train_debiased_" + str(filtering_ratio) + ".json", "w") as fout:
+        with open(f"data/{args.dataset_name}/train_{args.pretraining_dataset_name}_debiased_" + str(filtering_ratio) + ".json", "w") as fout:
             json.dump(condprob_filtered_dataset, fout)

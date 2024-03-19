@@ -6,61 +6,49 @@ import argparse
 
 from nltk import everygrams
 
-from src.utils.common.text_processing import text_normalization_without_lemmatization
+from src.utils.text_processing import text_normalization_without_lemmatization
 
-MAX_LEN = 50000
+MAX_TOKENS = 2048
 
-
-class DocumentIndex(object):
-    def __init__(self, entities):
-        self.entities = entities
-
-    def get_doc_entities(self, doc, doc_id):
-        output = {
-            'doc_id': doc_id,
-            'entities': []
-        }
-
-        doc = text_normalization_without_lemmatization(doc)
-        doc = set(everygrams(doc, min_len=1, max_len=3))
-
-        for ngrams in doc:
-            entity = ' '.join(ngrams)
-            if entity in self.entities:
-                output['entities'].append(entity)
-
-        return output
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--pile_path', type=str, default='data/pile/train')
-    parser.add_argument('--dataset_name', type=str, default='LAMA_TREx')
-    parser.add_argument('--num', type=str, required=True)
+    parser.add_argument('--pretraining_dataset_name', type=str, default='pile')
+    parser.add_argument('--filename', type=str, required=True)
     args = parser.parse_args()
 
-    nodes = []
-    with open(f'data_statistics/entity_set/{args.dataset_name}/entities_with_target_vocab.json', 'r') as fin:
-        entities = json.load(fin)
-    document_index = DocumentIndex(entities)
+    with open(f"data_statistics/entity_set/merged/all_subjects.json", "r") as fin:
+        subject_idx = json.load(fin)
+    with open(f"data_statistics/entity_set/merged/all_objects.json", "r") as fin:
+        object_idx = json.load(fin)
+    all_entities = set(subject_idx.keys()) | set(object_idx.keys())
 
-    out_path = f'data_statistics/term_document_index/{args.dataset_name}'
+    out_path = f'data_statistics/term_document_index/{args.pretraining_dataset_name}'
     os.makedirs(out_path, exist_ok=True)
-    with jsonlines.open(os.path.join(args.pile_path, f'{args.num}.jsonl')) as fin:
-        with open(os.path.join(out_path, f'{args.num}.jsonl'), 'w') as fout:
-            doc_count = 0
-            for docs in tqdm(fin.iter()):
-                docs_text = docs["text"]
 
-                start_idx, end_idx = 0, 0
+    doc_count, truncated_doc_count = 0, 0 # cwkang: count docs
+    pretraining_dataset_path = os.path.join('data', args.pretraining_dataset_name, f'{args.filename}.jsonl')
+    with jsonlines.open(pretraining_dataset_path) as fin:
+        with open(os.path.join(out_path, f'{args.filename}.jsonl'), 'w') as fout:
+            for doc in tqdm(fin.iter()):
+                doc_count += 1 # cwkang: count docs
 
-                while end_idx >= 0:
-                    end_idx = docs_text.find(" ", start_idx + MAX_LEN)
-                    doc = docs_text[start_idx:end_idx]
-                    try:
-                        doc_entities = document_index.get_doc_entities(doc, doc_count)
-                        json.dump(doc_entities, fout)
-                        fout.write('\n')
-                        doc_count += 1
-                    except Exception as e:
-                        print(e)
-                    start_idx = end_idx
+                doc_tokens = text_normalization_without_lemmatization(doc['text'])
+                for i in range(0, len(doc_tokens), MAX_TOKENS):
+                    truncated_doc_count += 1 # cwkang: count docs
+
+                    truncated_doc = doc_tokens[i:i+MAX_TOKENS]
+                    ngrams = set(everygrams(truncated_doc, min_len=1, max_len=3))
+
+                    entities = []
+                    for ngram in ngrams:
+                        entity = ' '.join(ngram)
+                        if entity in all_entities and entity not in entities:
+                            entities.append(entity)
+                    
+                    json.dump({'doc_id': truncated_doc_count, 'entities': entities}, fout)
+                    fout.write('\n')
+
+    print(f'number of documents: {doc_count}')
+    print(f'number of truncated documents: {truncated_doc_count}')
+    print('BYE')

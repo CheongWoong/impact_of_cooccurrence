@@ -1,1 +1,0 @@
-python -m src.data_statistics.precompute.extract_LAMA_TREx_entity_set
