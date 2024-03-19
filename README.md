@@ -1,6 +1,5 @@
 # Impact of Co-occurrence on Factual Knowledge of Large Language Models (EMNLP 2023 Findings)
-This is a repository for the paper "[Impact of Co-occurrence on Factual Knowledge of Large Language Models](https://aclanthology.org/2023.findings-emnlp.518.pdf)".  
-The project page can be found [here](https://cheongwoong.github.io/projects/impact_of_cooccurrence/).  
+This is a repository for the paper "[Why Do Neural Language Models Still Need Commonsense Knowledge?](https://arxiv.org/pdf/2209.00599.pdf)" and "[Impact of Co-occurrence on Factual Knowledge of Large Language Models](https://aclanthology.org/2023.findings-emnlp.518.pdf)" ([project page](https://cheongwoong.github.io/projects/impact_of_cooccurrence/)).  
 Refer to [v1.0](https://github.com/CheongWoong/impact_of_cooccurrence/tree/v1.0) for the original version used for the experiments in the EMNLP 2023 Findings paper "[Impact of Co-occurrence on Factual Knowledge of Large Language Models](https://aclanthology.org/2023.findings-emnlp.518.pdf)". However, we recommend using the latest version.
 
 <p align="center">
@@ -10,11 +9,11 @@ Refer to [v1.0](https://github.com/CheongWoong/impact_of_cooccurrence/tree/v1.0)
 
 ## Installation
 
-### Factual Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the factual knowledge probing experiments.  
-This includes setting up a conda environment and factual knowledge probing datasets.
+### Knowledge Probing
+Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the knowledge probing experiments.  
+This includes setting up a conda environment and knowledge probing datasets.
 
-### Download the Pre-training Data (the Pile)
+### Download the Pre-training Data (the Pile - No Longer Available)
 The dataset is saved in 'data/pile'.
 ```
 bash scripts/installation/download_pile.sh
@@ -64,14 +63,9 @@ bash scripts/data_statistics/term_frequency_baselines/joint_probability.sh {pret
 bash scripts/data_statistics/term_frequency_baselines/PMI.sh {pretraining_dataset_name} {dataset_name}
 ```
 
-### Compute Hits@1 against Reciprocal Rank of Subject-Object Frequency
-This evaluation script computes correlation and saves in 'hits_1_against_reciprocal_rank_{dataset_name}.json'.
-```
-bash scripts/data_statistics/correlation_analysis/hits_1_against_reciprocal_rank.sh {prediction_file}
-```
+### Correlational Analysis between Co-occurrence and Knowledge Probing Accuracy
+Refer to [ipython notebook](https://github.com/CheongWoong/impact_of_cooccurrence/tree/main/analysis/analysis_codes/cooccurrence) for correlation analysis.
 
-### Compute Hits@1 against Conditional Probability of the Gold Object Given a Subject
-This evaluation script computes correlation and saves in 'hits_1_against_conditional_prob_{dataset_name}.json'.
-```
-bash scripts/data_statistics/correlation_analysis/hits_1_against_conditional_prob.sh {prediction_file}
-```
+### Analysis of MadeOf / Opposite Relations
+Refer to [ipython notebook](https://github.com/CheongWoong/impact_of_cooccurrence/tree/main/analysis/analysis_codes/madeof) for analyzing the madeof relation.  
+Refer to [ipython notebook](https://github.com/CheongWoong/impact_of_cooccurrence/tree/main/analysis/analysis_codes/opposite_relation) for analyzing two opposite relations.
