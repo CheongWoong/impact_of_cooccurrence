@@ -10,7 +10,7 @@ Refer to [v1.0](https://github.com/CheongWoong/impact_of_cooccurrence/tree/v1.0)
 ## Installation
 
 ### Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the knowledge probing experiments.  
+Follow [this](https://github.com/CheongWoong/knowledge_probing) to run the knowledge probing experiments.  
 This includes setting up a conda environment and knowledge probing datasets.
 
 ### Download the Pre-training Data (the Pile - No Longer Available)
