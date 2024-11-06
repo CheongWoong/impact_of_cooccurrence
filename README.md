@@ -9,7 +9,7 @@ This is a repository for the paper "[Why Do Neural Language Models Still Need Co
 ## Installation
 
 ### Knowledge Probing
-Follow [this](https://github.com/CheongWoong/factual_knowledge_probing) to run the knowledge probing experiments.  
+Follow [this](https://github.com/CheongWoong/knowledge_probing) to run the knowledge probing experiments.  
 This includes setting up a conda environment and knowledge probing datasets.
 
 ### Download the Pre-training Data (the Pile - No Longer Available)
