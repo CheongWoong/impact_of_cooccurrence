@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     mat_shape = (len(subject_idx) + 1, len(object_idx) + 1)
     cooccurrence_matrix = np.zeros(mat_shape, dtype=np.int32)
-    # cooccurrence_matrix *= 0
+    cooccurrence_matrix *= 0
 
     term_document_index_path = os.path.join('data_statistics', 'term_document_index', args.pretraining_dataset_name, f'{args.filename}.jsonl')
     with jsonlines.open(term_document_index_path) as fin:

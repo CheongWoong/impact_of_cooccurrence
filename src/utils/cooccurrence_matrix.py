@@ -31,7 +31,12 @@ class CooccurrenceMatrix():
         if s_idx is not None and o_idx is not None:
             return self.cooccurrence_matrix[s_idx][o_idx].item()
         else:
-            return -1
+            o_idx = self.get_object_idx(subj)
+            s_idx = self.get_subject_idx(obj)
+            if s_idx is not None and o_idx is not None:
+                return self.cooccurrence_matrix[s_idx][o_idx].item()
+            else:
+                return -1
     
     def get_subject_idx(self, word):
         return self.subject_idx.get(word, None)
